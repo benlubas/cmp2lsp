@@ -1,7 +1,7 @@
 local M = {}
 
-local cmp = require("cmp")
 local sources = require("cmp2lsp.sources")
+local cfg = require("cmp2lsp.config")
 
 M.create_abstracted_context = function(request)
   local line_num = request.position.line
@@ -37,7 +37,9 @@ M.create_abstracted_context = function(request)
   }
 end
 
-M.setup = function(_opts)
+M.setup = function(opts)
+  cfg.update_config(opts)
+
   local build_trigger_chars = function()
     local chars = {}
     local function set_insert(t, i)
@@ -84,6 +86,9 @@ M.setup = function(_opts)
           source.complete(abstracted_context, function(items)
             callback(nil, items)
           end)
+          if cfg.config.break_after_match then
+            break
+          end
         end
       end
     end,
@@ -116,7 +121,7 @@ M.start_lsp = function(handlers)
       }
       return members
     end,
-    filetypes = { "norg" },
+    filetypes = { "*" },
     root_dir = vim.fn.getcwd(),
   })
 end
