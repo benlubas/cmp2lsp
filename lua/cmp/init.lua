@@ -30,10 +30,12 @@ function cmp.register_source(name, cmp_source)
         line = cursor[1] - 1,
         character = cursor[2] - 1,
       },
+      prev_context = completion_context.context.prev_context,
       get_reason = function(self)
         return self.option.reason
       end,
       cursor_before_line = completion_context.context.line_before_cursor,
+      line_before_cursor = completion_context.context.line_before_cursor,
       cursor_after_line = string.sub(cursor_line, cursor[2] - 1),
     }
     local TODO = 3
@@ -61,12 +63,12 @@ function cmp.register_source(name, cmp_source)
       return old_get_keyword_pattern(self, { option = {} })
     end
   end
-  local old_execute = cmp_source.execute
-  if old_execute then
-    cmp_source.execute = function(self, entry, _)
-      old_execute(self, entry.completion_item, function() end)
-    end
-  end
+  -- local old_execute = cmp_source.execute
+  -- if old_execute then
+  --   cmp_source.execute = function(self, entry, _)
+  --     old_execute(self, entry.completion_item, function() end)
+  --   end
+  -- end
 
   table.insert(sources, vim.deepcopy(cmp_source))
 end

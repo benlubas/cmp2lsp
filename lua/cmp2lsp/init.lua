@@ -92,7 +92,6 @@ M.setup = function(_opts)
   vim.api.nvim_create_autocmd("FileType", {
     pattern = "*",
     callback = function()
-      print("starting")
       M.start_lsp(handlers)
     end,
   })
@@ -108,7 +107,7 @@ M.start_lsp = function(handlers)
           if handlers[method] then
             handlers[method](params, callback, notify_reply_callback)
           else
-            print("Unexpected LSP method: " .. method)
+            -- fail silently
           end
         end,
         notify = function(_method, _params) end,
