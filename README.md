@@ -40,5 +40,6 @@ now.
 @Saghen with [blink.cmp](https://github.com/Saghen/blink.cmp) the WIP plugin that made me want to
 try out a new completion engine.
 
-myself with [neorg-interim-ls](https://github.com/benlubas/neorg-interim-ls) which does some similar
-stuff creating a shim language server in Lua.
+@jmbuhr with [quarto-nvim](https://github.com/quarto-dev/quarto-nvim) which does some similar
+stuff creating a shim language server in Lua, which I used in
+[neorg-interim-ls](https://github.com/benlubas/neorg-interim-ls), and now here as well!
