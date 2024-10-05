@@ -35,7 +35,8 @@ now.
 ## Shout out
 
 @max397574 I basically ~stole~ repurposed the entire `./lua/cmp/init.lua` file from `care.nvim`'s
-`cmp-care` plugin which hijacks cmp sources for care.
+[cmp-care](https://github.com/max397574/care-cmp/blob/main/lua/cmp/init.lua) plugin which hijacks
+cmp sources for care.
 
 @Saghen with [blink.cmp](https://github.com/Saghen/blink.cmp) the WIP plugin that made me want to
 try out a new completion engine.
