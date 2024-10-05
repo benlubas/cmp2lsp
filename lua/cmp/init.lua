@@ -1,3 +1,8 @@
+--- This file was originally authored by @max397574 for
+--- care.nvim at: https://github.com/max397574/care-cmp/blob/main/lua/cmp/init.lua
+---
+--- It was modified slightly for this plugin's purposes
+
 local sources = require("cmp2lsp.sources")
 
 local cmp = {}
