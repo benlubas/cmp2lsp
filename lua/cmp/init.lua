@@ -75,7 +75,11 @@ function cmp.register_source(name, cmp_source)
   --   end
   -- end
 
-  sources.add_source(vim.deepcopy(cmp_source))
+  -- NOTE: I'm  removing the deepcopy b/c some sources store userdata values which cause deepcopy to
+  -- throw an error. I don't think that it's really necessary, just a safety feature that Max
+  -- included.
+  -- sources.add_source(vim.deepcopy(cmp_source))
+  sources.add_source(cmp_source)
 end
 
 cmp.lsp = {}
