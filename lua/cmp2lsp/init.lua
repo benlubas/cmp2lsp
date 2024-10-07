@@ -39,6 +39,7 @@ end
 
 M.setup = function(opts)
   cfg.update_config(opts)
+  sources.sort_sources(cfg.config.sources)
 
   local build_trigger_chars = function()
     local chars = {}
@@ -48,9 +49,11 @@ M.setup = function(opts)
       end
     end
     for _, source in ipairs(sources) do
-      for _, c in ipairs(source.get_trigger_characters()) do
+      if not source.get_trigger_characters then goto continue end
+      for _, c in ipairs(source:get_trigger_characters()) do
         set_insert(chars, c)
       end
+      ::continue::
     end
     return chars
   end
@@ -72,7 +75,7 @@ M.setup = function(opts)
         },
         serverInfo = {
           name = "cmp2lsp",
-          version = "0.0.1",
+          version = "0.0.2",
         },
       }
 
@@ -81,16 +84,21 @@ M.setup = function(opts)
 
     ["textDocument/completion"] = function(request, callback, _)
       local abstracted_context = M.create_abstracted_context(request)
+      local response = {}
       for _, source in ipairs(sources) do
-        if vim.tbl_contains(source.get_trigger_characters(), abstracted_context.context.before_char) then
+        if type(source) == "string" and #response > 0 then
+          break
+        end
+        if not source.get_trigger_characters or vim.tbl_contains(source:get_trigger_characters(), abstracted_context.context.before_char) then
           source.complete(abstracted_context, function(items)
-            callback(nil, items)
+            if #items > 0 then
+              table.insert(response, items)
+            end
           end)
-          if cfg.config.break_after_match then
-            break
-          end
         end
       end
+
+      callback(nil, vim.iter(response):flatten(1):totable())
     end,
   }
 

@@ -10,7 +10,7 @@ local cmp = {}
 -- this file will be required in the place of nvim_cmp when you try to register a source.
 
 function cmp.register_source(name, cmp_source)
-  cmp_source.name = "cmp_" .. name
+  cmp_source.name = name
   cmp_source.display_name = name .. " (cmp)"
   if not cmp_source.is_available then
     cmp_source.is_available = function()

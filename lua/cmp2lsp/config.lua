@@ -1,7 +1,9 @@
 local config = {
-  -- when true, will complete from the first source that it finds. Sources are checked in order that
-  -- they're registered
-  break_after_match = false,
+  -- sort sources by name. Sources that show up first will be given priority
+  -- group sources together to show their completion suggestions at the same time like:
+  -- `{ { 'path', 'lsp' }, { 'buffer' } }`
+  -- for the above, 'buffer' will only show if 'path' and 'lsp' produce no results
+  sources = {},
 }
 
 return {
