@@ -17,7 +17,7 @@ M.create_abstracted_context = function(request)
         col = col_num + 1,
       },
       line = full_line,
-      line_before_cursor = full_line:sub(1, col_num + 1),
+      line_before_cursor = full_line:sub(1, col_num),
       bufnr = buf,
       before_char = before_char,
       -- throwaway values to appease some plugins that expect them (neorg)
