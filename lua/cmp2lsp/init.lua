@@ -103,7 +103,7 @@ M.setup = function(opts)
             abstracted_context.context.before_char
           )
         then
-          source.complete(abstracted_context, function(items)
+          source:complete(abstracted_context, function(items)
             if #items > 0 then
               table.insert(response, items)
             end

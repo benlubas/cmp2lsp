@@ -17,8 +17,9 @@ function cmp.register_source(name, cmp_source)
       return true
     end
   end
+
   local old_complete = cmp_source.complete
-  cmp_source.complete = function(completion_context, callback)
+  cmp_source.complete = function(self, completion_context, callback)
     local cursor = { completion_context.context.cursor.row, completion_context.context.cursor.col }
     local cursor_line = completion_context.context.line
     local cmp_context = {
@@ -36,20 +37,28 @@ function cmp.register_source(name, cmp_source)
         character = cursor[2] - 1,
       },
       prev_context = completion_context.context.prev_context,
-      get_reason = function(self)
-        return self.option.reason
+      get_reason = function(self_)
+        return self_.option.reason
       end,
       cursor_before_line = completion_context.context.line_before_cursor,
       line_before_cursor = completion_context.context.line_before_cursor,
       cursor_after_line = string.sub(cursor_line, cursor[2] - 1),
     }
-    local TODO = 3
+
+    -- yeah, maybe cache these? cmp does
+    local offset = (function()
+      if self.get_keyword_pattern then
+        local pat = self:match_keyword_pattern(completion_context.context.line_before_cursor)
+        if pat then return pat end
+      end
+      return cursor[2]
+    end)()
+
     old_complete(cmp_source, {
       context = cmp_context,
-      offset = TODO,
+      offset = offset,
       completion_context = completion_context.completion_context,
       option = {},
-      ---@diagnostic disable-next-line: redundant-parameter
     }, function(response)
       if not response then
         callback({})
@@ -67,6 +76,9 @@ function cmp.register_source(name, cmp_source)
     cmp_source.get_keyword_pattern = function(self, _)
       return old_get_keyword_pattern(self, { option = {} })
     end
+  end
+  cmp_source.match_keyword_pattern = function(self, line_before_cursor)
+    return vim.regex([[\%(]] .. self:get_keyword_pattern() .. [[\)\m$]]):match_str(line_before_cursor)
   end
   -- local old_execute = cmp_source.execute
   -- if old_execute then
