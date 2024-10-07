@@ -33,7 +33,6 @@ now.
 There are parts of the cmp source 'spec' that are currently unsupported:
 
 - `get_position_encoding_kind` - completely ignored
-- `get_keyword_pattern` - completely ignored
 - `resolve` - I'm planning to implement this soon
 - `execute` - same here
 
