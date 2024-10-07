@@ -48,7 +48,7 @@ M.setup = function(opts)
         table.insert(t, i)
       end
     end
-    for _, source in ipairs(sources) do
+    for _, source in ipairs(sources.sources) do
       if not source.get_trigger_characters then goto continue end
       for _, c in ipairs(source:get_trigger_characters()) do
         set_insert(chars, c)
@@ -85,9 +85,13 @@ M.setup = function(opts)
     ["textDocument/completion"] = function(request, callback, _)
       local abstracted_context = M.create_abstracted_context(request)
       local response = {}
-      for _, source in ipairs(sources) do
-        if type(source) == "string" and #response > 0 then
-          break
+      for _, source in ipairs(sources.sources) do
+        if type(source) == "string" then
+          if #response > 0 then
+            break
+          else
+            goto continue
+          end
         end
         if not source.get_trigger_characters or vim.tbl_contains(source:get_trigger_characters(), abstracted_context.context.before_char) then
           source.complete(abstracted_context, function(items)
@@ -96,6 +100,7 @@ M.setup = function(opts)
             end
           end)
         end
+        ::continue::
       end
 
       callback(nil, vim.iter(response):flatten(1):totable())

@@ -1,4 +1,6 @@
-local config = {
+local M = {}
+
+M.config = {
   -- sort sources by name. Sources that show up first will be given priority
   -- group sources together to show their completion suggestions at the same time like:
   -- `{ { 'path', 'lsp' }, { 'buffer' } }`
@@ -6,10 +8,9 @@ local config = {
   sources = {},
 }
 
-return {
-  config = config,
-  update_config = function(user_config)
-    user_config = user_config or {}
-    config = vim.tbl_deep_extend("force", config, user_config)
-  end,
-}
+M.update_config = function(user_config)
+  user_config = user_config or {}
+  M.config = vim.tbl_deep_extend("force", M.config, user_config)
+end
+
+return M
