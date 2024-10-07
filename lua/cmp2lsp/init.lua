@@ -97,12 +97,11 @@ M.setup = function(opts)
           end
         end
         if
-          (source.is_availble and source:is_availble()) and
-          (not source.get_trigger_characters
+          not source.get_trigger_characters
           or vim.tbl_contains(
             source:get_trigger_characters(),
             abstracted_context.context.before_char
-          ))
+          )
         then
           source.complete(abstracted_context, function(items)
             if #items > 0 then
