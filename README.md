@@ -28,6 +28,15 @@ It's important that this plugin loads before all of your cmp sources are registe
 If you want to configure it, just look at `./lua/cmp2lsp/config.lua`, there's not much there right
 now.
 
+## Unsupported
+
+There are parts of the cmp source 'spec' that are currently unsupported:
+
+- `get_position_encoding_kind` - completely ignored
+- `get_keyword_pattern` - completely ignored
+- `resolve` - I'm planning to implement this soon
+- `execute` - same here
+
 ## Shout out
 
 @max397574 I basically ~stole~ repurposed the entire `./lua/cmp/init.lua` file from `care.nvim`'s
