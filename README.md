@@ -1,10 +1,6 @@
 
 # cmp2lsp
 
-_Early software warning: I made this plugin in a few hours while recovering from an illness, there
-are a ton of obvious features missing, and probably even more bugs. At this time I've only tested
-with cmp-path and neorg._
-
 Convert nvim-cmp sources to native LSP sources, allowing you to use your favorite nvim-cmp sources
 with any completion engine. Native, mini-completion, care, coq, blink, whatever.
 

@@ -8,7 +8,8 @@ M.create_abstracted_context = function(request)
   local col_num = request.position.character
   local buf = vim.uri_to_bufnr(request.textDocument.uri)
   local full_line = vim.api.nvim_buf_get_lines(buf, line_num, line_num + 1, false)[1]
-  local before_char = (request.context and request.context.triggerCharacter) or full_line:sub(col_num, col_num + 1)
+  local before_char = (request.context and request.context.triggerCharacter)
+    or full_line:sub(col_num, col_num + 1)
   return {
     context = {
       cursor = {
@@ -49,7 +50,9 @@ M.setup = function(opts)
       end
     end
     for _, source in ipairs(sources.sources) do
-      if not source.get_trigger_characters then goto continue end
+      if not source.get_trigger_characters then
+        goto continue
+      end
       for _, c in ipairs(source:get_trigger_characters()) do
         set_insert(chars, c)
       end
@@ -93,7 +96,13 @@ M.setup = function(opts)
             goto continue
           end
         end
-        if not source.get_trigger_characters or vim.tbl_contains(source:get_trigger_characters(), abstracted_context.context.before_char) then
+        if
+          not source.get_trigger_characters
+          or vim.tbl_contains(
+            source:get_trigger_characters(),
+            abstracted_context.context.before_char
+          )
+        then
           source.complete(abstracted_context, function(items)
             if #items > 0 then
               table.insert(response, items)
