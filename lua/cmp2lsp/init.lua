@@ -122,8 +122,11 @@ M.setup = function(opts)
 
   vim.api.nvim_create_autocmd("FileType", {
     pattern = "*",
-    callback = function()
-      M.start_lsp(handlers)
+    callback = function(event)
+      local filetype = vim.api.nvim_get_option_value("filetype", { buf = event.buf })
+      if filetype ~= "fzf" then
+        M.start_lsp(handlers)
+      end
     end,
   })
 end
