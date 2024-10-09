@@ -106,22 +106,25 @@ M.setup = function(opts)
           ))
         then
           source:complete(abstracted_context, function(items)
-            if #items > 0 then
-              table.insert(response, items)
+            for _, item in ipairs(items) do
+              table.insert(response, item)
             end
           end)
         end
         ::continue::
       end
 
-      callback(nil, vim.iter(response):flatten(1):totable())
+      callback(nil, response)
     end,
   }
 
   vim.api.nvim_create_autocmd("FileType", {
     pattern = "*",
-    callback = function()
-      M.start_lsp(handlers)
+    callback = function(event)
+      local filetype = vim.api.nvim_get_option_value("filetype", { buf = event.buf })
+      if filetype ~= "fzf" then
+        M.start_lsp(handlers)
+      end
     end,
   })
 end
